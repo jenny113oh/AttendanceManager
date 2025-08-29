@@ -17,10 +17,11 @@ def attendance_manager():
 output = io.StringIO()
 sys.stdout = output
 
-def test_read_attendance_file(file_manager, attendance_manager):
+def test_read_attendance_file(file_manager, attendance_manager, mocker):
+    mocker.patch('builtins.open', mocker.mock_open(read_data='Hello sunday'))
     file_manager.read_attendance_file(attendance_manager,'attendance_weekday_500.txt')
 
-    assert attendance_manager.member_cnt() == 19
+    assert attendance_manager.member_cnt() == 1
 
 def test_read_attendance_non_file(file_manager, attendance_manager):
     output.seek(0)
